@@ -1,0 +1,26 @@
+﻿@model CarRent.ViewModels.UserDetailsViewModel
+@{
+    ViewData["Title"] = "UserDetails";
+}
+
+<h1>UserDetails</h1>
+<div class="card">
+    <div class="card-body">
+        <p class="text-left">Email</p>
+        @Model.User.Email
+    </div>
+</div>
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">Roles</h5>
+        <p class="card-text">
+            @foreach (var role in Model.UserRoles)
+            {
+                <p class="text-left">role</p>
+            }
+        </p>
+    </div>
+</div>
+<div>
+    <partial name="~/Views/Admin/Partial/NewUserRole.cshtml" for="@Model"/>
+</div>

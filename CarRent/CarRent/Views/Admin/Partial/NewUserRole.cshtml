@@ -1,0 +1,24 @@
+﻿@model CarRent.ViewModels.UserDetailsViewModel
+@{
+    ViewData["Title"] = "NewUserRole";
+}
+
+<h1>NewUserRole</h1>
+@{
+    CarRent.ViewModels.NewUserRoleViewModel newUserRoleViewModel =
+                    new CarRent.ViewModels.NewUserRoleViewModel();
+    
+    <form asp-action="AddRoleToUser" method="post">
+        <div class="form-group">
+            <label class="control-label">Add new role</label>
+            <select asp-for="@newUserRoleViewModel.RoleName" class="form-control"
+                    asp-items="@(new SelectList(Model.Roles))">
+                <option>Select role</option>
+            </select>
+        </div>
+        <input type="hidden" asp-for="@newUserRoleViewModel.UserId" value="@Model.User.Id"/>
+        <div class="form-group">
+            <input type="submit" value="Add" class="btn btn-primary" />
+        </div>
+    </form>
+}
