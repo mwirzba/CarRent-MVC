@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CarRent.Data;
+using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarRent.Models.CarModels
@@ -42,7 +44,12 @@ namespace CarRent.Models.CarModels
         [Range(1, 20)]
         [Display(Name = "Number of Seats")]
         public virtual int CarNumberOfSeats { get; set; }
-        //public string CarImage { get; set; }
+
+        public string ImageName { get; set; }
+
+        [NotMapped]
+        [ImageValidation]
+        public IFormFile Image { get; set; }
 
     }
 }
