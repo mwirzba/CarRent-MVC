@@ -15,7 +15,8 @@ namespace CarRent.Data
 
             if (file == null)
             {
-                return new ValidationResult("Image is required");
+                return ValidationResult.Success; 
+                //return new ValidationResult("Image is required");
             }
             try
             {
