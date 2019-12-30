@@ -132,7 +132,7 @@ namespace CarRent.Controllers
                 carFormViewModel.CarCategories = await _dbContext.CarCategories.ToListAsync();
                 carFormViewModel.CarClasses = await _dbContext.CarClasses.ToListAsync();
                 carFormViewModel.CarFuelTypes = await _dbContext.CarFuelTypes.ToListAsync();
-                ModelState.AddModelError("Image", "Image is required");
+                ModelState.AddModelError("Car.Image", "Image is required");
                 return View("CarForm", carFormViewModel);
             }
             uniqueName = await GetUniqueFileName();
