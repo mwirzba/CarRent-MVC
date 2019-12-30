@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,15 +19,44 @@ namespace CarRent.Controllers
     {
         private readonly AppDbContext _dbContext;
         private const string carImagePath = "/CarRent/CarRent/Data/Images/";
+        private static byte _pageSize = 3;
 
         public CarController(AppDbContext appDbContext)
         {
             _dbContext = appDbContext;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int page=1)
         {
-            var cars = _dbContext.Cars.ToList();
-            return View("List",cars);
+            List<Car> cars;
+            if (User.IsInRole("Admin")) {
+                cars = await _dbContext.Cars.ToListAsync();
+                return View("List", cars);
+            }
+
+            cars = await _dbContext.Cars
+            .Include(c => c.CarClass)
+            .Include(c => c.CarFuelType)
+            .Include(c => c.CarCategory)
+            .OrderBy(c => c.Brand)
+            .Skip((page - 1) * _pageSize)
+            .Take(_pageSize)
+            .ToListAsync();
+            ViewBag.FolderPath = Path.GetDirectoryName(
+                Path.GetDirectoryName(Directory.GetCurrentDirectory())) + carImagePath;
+
+            var viewModel = new ListViewModel<Car>
+            {
+                Items = cars,
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = (byte)page,
+                    ItemsPerPage = _pageSize,
+                    TotalItems = (byte)_dbContext.Cars.Count()
+                }
+            };
+
+
+            return View("ReadOnlyList", viewModel); 
         }
 
         public async Task<IActionResult> NewAsync()

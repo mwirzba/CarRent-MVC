@@ -20,6 +20,11 @@
 
   <ItemGroup>
     <Folder Include="Data\Images\" />
+    <Folder Include="Infrastructure\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\notFound.png" />
   </ItemGroup>
 
 </Project>
