@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<CarRent.Models.CarModels.Car>
 @{
     ViewData["Title"] = "List";
+    Layout = "_AdminLayout";
 }
 
 <h1>List</h1>
@@ -9,7 +10,7 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" >Name</a>
+                <a asp-action="Index">Name</a>
             </th>
             <th>
             </th>
@@ -20,8 +21,8 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem  =>item.Brand) 
-                     @Html.DisplayFor(modelItem  => item.Model)
+                    @Html.DisplayFor(modelItem => item.Brand)
+                    @Html.DisplayFor(modelItem => item.Model)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -34,4 +35,7 @@
     </tbody>
 </table>
 
-<button asp-action="NewAsync" class="btn-primary" value="New car" /> 
+<a class="btn btn-outline-success" asp-area=""
+   asp-controller="Car" asp-action="New">
+    Add car
+</a>

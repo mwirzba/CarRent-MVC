@@ -1,6 +1,7 @@
 ﻿@model CarRent.ViewModels.UserDetailsViewModel
 @{
     ViewData["Title"] = "UserDetails";
+    Layout = "_AdminLayout";
 }
 
 <h1>UserDetails</h1>
@@ -16,7 +17,7 @@
         <p class="card-text">
             @foreach (var role in Model.UserRoles)
             {
-                <p class="text-left">role</p>
+                <p class="text-left">@role</p>
             }
         </p>
     </div>

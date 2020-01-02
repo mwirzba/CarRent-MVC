@@ -41,7 +41,6 @@ namespace CarRent.Infrastructure
 
             for (int i = 1; i <= PageModel.TotalPages; i++)
             {
-
                 if (i == 1)
                 {
                     TagBuilder prevPage = new TagBuilder("a");
@@ -56,7 +55,6 @@ namespace CarRent.Infrastructure
                         prevPage.AddCssClass(PageClassNormal);
                     }
                     result.InnerHtml.AppendHtml(prevPage);
-
                 }
 
                 TagBuilder tag = new TagBuilder("a");

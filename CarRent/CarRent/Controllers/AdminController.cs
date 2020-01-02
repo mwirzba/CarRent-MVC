@@ -18,8 +18,7 @@ namespace CarRent.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         public AdminController(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
+            UserManager<User> userManager,RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -27,11 +26,13 @@ namespace CarRent.Controllers
         public async Task<IActionResult> EditUser(string userId)
         {
             var userToEdit = await _userManager.FindByIdAsync(userId);
+            var userRoles = await _userManager.GetRolesAsync(userToEdit);
             var userDetailViewModel = new UserDetailsViewModel
             {
-                Roles  = _roleManager.Roles,
+
+                UserRoles = userRoles,
+                Roles = _roleManager.Roles.Where(r=> !userRoles.Any(rl => rl == r.Name)),
                 User = userToEdit,
-                UserRoles = await _userManager.GetRolesAsync(userToEdit)
             };
             return View("UserDetails", userDetailViewModel);
         }
@@ -54,7 +55,7 @@ namespace CarRent.Controllers
             {
                 throw new InvalidOperationException("Failed to build user and roles");
             }
-            return RedirectToAction("EditUser","Admin",new UserIdViewModel { UserId = newUserRoleViewModel.UserId });
+            return RedirectToAction("UserDetails","Admin",new UserIdViewModel { UserId = newUserRoleViewModel.UserId });
         }
 
         public ViewResult UserList()

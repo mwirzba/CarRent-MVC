@@ -41,6 +41,7 @@ namespace CarRent.Controllers
             .Skip((page - 1) * _pageSize)
             .Take(_pageSize)
             .ToListAsync();
+
             ViewBag.FolderPath = Path.GetDirectoryName(
                 Path.GetDirectoryName(Directory.GetCurrentDirectory())) + carImagePath;
 
@@ -54,8 +55,6 @@ namespace CarRent.Controllers
                     TotalItems = (byte)_dbContext.Cars.Count()
                 }
             };
-
-
             return View("ReadOnlyList", viewModel); 
         }
 
