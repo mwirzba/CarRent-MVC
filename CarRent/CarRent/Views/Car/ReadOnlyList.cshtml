@@ -4,25 +4,41 @@
 }
 
 
+<partial name="~/Views/Shared/SearchByDate.cshtml" model="Model.DateSession.date" />
 <div class="row row-cols-1 row-cols-md-3">
     @foreach (var car in Model.Items)
     {
         <div class="col mb-4">
             <div class="card" style="width: 18rem;">
-                <img src="@Url.Content("~/notFound.png")" class="card-img-top" alt="...">
+                <img src="@Url.Content("~/icons/notFound.png")" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">@car.Brand @car.Model</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Details</a>
+                    <p class="card-text">
+                        <img src="@Url.Content("~/icons/car-door.png")" data-toggle="tooltip" data-placement="top"
+                             title="@(car.CarNumberOfSeats) adult passengers">@car.CarNumberOfSeats
+                        <img src="@Url.Content("~/icons/gasoline-pump.png")" data-toggle="tooltip" data-placement="top"
+                             title="@(car.CarNumberOfSeats) adult passengers">@car.CarFuelType.Name
+                        <img src="@Url.Content("~/icons/car-icon.png")" data-toggle="tooltip" data-placement="top"
+                             title="@(car.CarNumberOfSeats) adult passengers">@car.CarCategory.Name
+                        <div class="badge badge-primary text-wrap" style="width: 6rem;">
+                            Class @car.CarClass.Name
+                        </div>
+                    </p>
+                    <form asp-action="New" asp-controller="Rental" method="post">
+                        <input type="hidden" asp-for="@car.Id" name="carId"/>
+                        <input type="submit" value="Rent" class="btn btn-outline-success" />
+                    </form>
                 </div>
             </div>
         </div>
-    }
+     }
 </div>
 
 
-<div page-model="@Model.PagingInfo"  page-classes-enabled="true"
+<div page-model="@Model.PagingInfo" page-classes-enabled="true"
      page-class="btn" page-class-normal="btn-secondary"
-     page-class-selected="btn-primary" 
+     page-class-selected="btn-primary"
      class="btn-group pull m-1">
 </div>
+
+

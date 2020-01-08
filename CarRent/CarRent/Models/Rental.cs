@@ -22,5 +22,7 @@ namespace CarRent.Models
 
         public string UserId { get; set; }
 
+        public byte RentalStatusId { get; set; }
+        public virtual RentalStatus RentalStatus{ get; set; }
     }
 }

@@ -84,7 +84,7 @@ namespace CarRent.Controllers
                     if ((await _signInManager.PasswordSignInAsync(user.UserName, loginModel.Password, false, false)).Succeeded)
                     {
                         //loginModel?.ReturnUrl ?? 
-                        return Redirect("/Car/Index");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
             }

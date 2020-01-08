@@ -4,9 +4,10 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
-
-<h4>LoginViewModel</h4>
+@if (ViewData["Message"] != null)
+{ 
+    <h3>@ViewData["Message"]</h3>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 
 namespace CarRent.Data
 {
-    public static class RoleNames
+    public static class Roles
     {
         public const string Admin = "Admin";
         public const string User = "User";
@@ -15,4 +12,12 @@ namespace CarRent.Data
     {
 
     }
+
+    public enum RentalStatus
+    {
+        Reservation=0,
+        Checked = 1,
+        Archival =2
+    }
+
 }

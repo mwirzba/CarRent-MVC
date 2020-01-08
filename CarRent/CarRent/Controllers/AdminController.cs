@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CarRent.Controllers
 {
-    //[Authorize(Roles = RoleNames.Admin)]
+    [Authorize(Roles = Roles.Admin)]
     public class AdminController : Controller
     {
         private readonly UserManager<User> _userManager;

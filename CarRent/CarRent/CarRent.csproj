@@ -19,12 +19,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\" />
     <Folder Include="Data\Images\" />
-    <Folder Include="Infrastructure\" />
+    <Folder Include="Views\Rental\" />
+    <Folder Include="wwwroot\carImages\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\notFound.png" />
+    <None Include="wwwroot\icons\notFound.png" />
   </ItemGroup>
 
 </Project>

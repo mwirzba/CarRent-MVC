@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using CarRent.Models;
+using CarRent.ViewModels;
 
 namespace CarRent.Validators
 {
@@ -8,7 +9,7 @@ namespace CarRent.Validators
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var rental = (Rental)validationContext.ObjectInstance;
+            var rental = (RentalDateViewModel)validationContext.ObjectInstance;
 
             if (rental.RentDate == null)
                 return new ValidationResult("Pick up date is required");
