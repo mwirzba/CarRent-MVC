@@ -16,10 +16,10 @@ namespace CarRent.Validators
             if (rental.ReturnDate == null)
                 return new ValidationResult("Date returned is required");
 
-            if (DateTime.Compare(rental.RentDate.Value.Date, DateTime.Now) < 0)
+            if (DateTime.Compare(rental.RentDate.Value.Date, DateTime.Now.Date) < 0)
                 return new ValidationResult("You can not choose rental date that is earlier than today's.");
 
-            if (DateTime.Compare(rental.ReturnDate.Value.Date, DateTime.Now) <= 0)
+            if (DateTime.Compare(rental.ReturnDate.Value.Date, DateTime.Now.Date) <= 0)
                 return new ValidationResult("You can not choose return car date that is today or tomorrow.");
 
             if (rental.RentDate >= rental.ReturnDate)

@@ -27,7 +27,7 @@ namespace CarRent.Data
                     return ValidationResult.Success;
             }
             catch { }
-            return new ValidationResult("Wrong type of file.File must be in jpg or png format.");
+            return new ValidationResult("Wrong type of file. File must be in jpg or png format.");
         }
     }
 }

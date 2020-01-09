@@ -29,17 +29,17 @@ namespace CarRent.Controllers
             _dateSession = dateSession;
         }
         public async Task<IActionResult> Index(RentalDateViewModel rentalDate, int page=1)
-        {
+        {           
             IEnumerable<Car> cars;
             if (User.IsInRole("Admin"))
             {
                 cars = await _dbContext.Cars.ToListAsync();
                 return View("List", cars);
             }
-             if (DateIsNull(rentalDate))
+            else if (DateIsNull(rentalDate))
              {
                 rentalDate = _dateSession.date;
-                 if (!DateIsNull(rentalDate))
+                if (!DateIsNull(rentalDate))
                  {
                      cars = await Search(rentalDate);
                  }
@@ -57,6 +57,16 @@ namespace CarRent.Controllers
                 _dateSession.SetDate(rentalDate);
                  cars = await Search(rentalDate);
              }
+            ModelState.Clear();
+            TryValidateModel(rentalDate);
+            if (!ModelState.IsValid)
+            {
+                cars = await _dbContext.Cars
+                   .Include(c => c.CarClass)
+                   .Include(c => c.CarFuelType)
+                   .Include(c => c.CarCategory)
+                   .ToListAsync();
+            }
 
             cars = cars.OrderBy(c => c.Brand)
                        .Skip((page - 1) * _pageSize)

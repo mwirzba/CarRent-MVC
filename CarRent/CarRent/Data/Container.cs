@@ -13,7 +13,7 @@ namespace CarRent.Data
 
     }
 
-    public enum RentalStatus
+    public enum RentalStatus : byte
     {
         Reservation=0,
         Checked = 1,
