@@ -22,7 +22,6 @@ namespace CarRent.Controllers
         private static byte _pageSize = 3;
         private readonly DateSession _dateSession;
 
-
         public CarController(AppDbContext appDbContext, DateSession dateSession)
         {
             _dbContext = appDbContext;
@@ -97,7 +96,7 @@ namespace CarRent.Controllers
             return rentalDate.RentDate == null || rentalDate.ReturnDate == null;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> NewAsync()
         {
             var carFormViewModel = new CarFormViewModel
@@ -110,7 +109,7 @@ namespace CarRent.Controllers
             return View("CarForm",carFormViewModel);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Edit(int id)
         {
             var carInDb = await _dbContext.Cars.FirstOrDefaultAsync(c=> c.Id == id);
@@ -126,9 +125,7 @@ namespace CarRent.Controllers
             return View("CarForm", carFormViewModel);
         }
 
-
-
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Delete(int id)
         {
             var carInDb = await _dbContext.Cars.FirstOrDefaultAsync(c => c.Id == id);
@@ -140,7 +137,7 @@ namespace CarRent.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Save(CarFormViewModel carFormViewModel)
         {
             var uniqueName = "";
@@ -193,7 +190,7 @@ namespace CarRent.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         private async Task<bool> SaveCarImageToDirectory(string fileName)
         {
             IFormFile file = Request.Form.Files.First();

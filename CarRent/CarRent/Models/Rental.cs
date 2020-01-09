@@ -10,6 +10,7 @@ namespace CarRent.Models
 {
     public class Rental
     {
+        [Key]
         public long Id { get; set; }
 
         public Car Car { get; set; }
