@@ -1,0 +1,66 @@
+﻿@model IEnumerable<CarRent.Models.Rental>
+
+@{
+    ViewData["Title"] = "RentalsList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>RentalsList</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Car)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReturnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+               <text>User email</text>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalStatus)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Car.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                <text>@item.User.Email</text>
+            </td>
+            <td>
+                <div>
+                    <form asp-action="EditRentalStatus" class="form-inline" method="post">
+                        <select name="rentalStatusId" class="form-control"
+                                asp-items="@Html.GetEnumSelectList<CarRent.Data.RentalStatus>()">
+                            <option disabled selected>@item.RentalStatus.Status</option>
+                        </select>
+                        <input type="hidden" value="@item.Id" name="id" />
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </form>
+                </div>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

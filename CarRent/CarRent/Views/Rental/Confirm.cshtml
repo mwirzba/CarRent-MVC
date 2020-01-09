@@ -1,0 +1,36 @@
+﻿@model CarRent.Models.Rental
+@{
+    ViewData["Title"] = "Confirm";
+}
+
+<h1>Confirm</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Save" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">@Model.Car.Brand @Model.Car.Model</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.RentDate" class="control-label"></label>
+                <strong>@Model.RentDate.Value.Date</strong>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ReturnDate" class="control-label"></label>
+                <strong>@Model.ReturnDate.Value.Date</strong> 
+            </div>
+            <input type ="hidden" asp-for="CarId" value="@Model.CarId" />
+            <input type ="hidden" asp-for="UserId" value="@Model.UserId"/>
+            <input type ="hidden" asp-for="RentDate" value="@Model.RentDate"/>
+            <input type ="hidden" asp-for="ReturnDate" value="@Model.ReturnDate"/>
+            <input type ="hidden" asp-for="TotalPrice" value="@Model.TotalPrice" />
+            <input type ="hidden" asp-for="RentalStatusId" value="@Model.RentalStatusId"/>
+            <div class="form-group">
+                <input type="submit" value="Confirm" class="btn btn-primary" />
+            </div>
+            <a asp-action="Index" asp-controller="Car">Go back to car list</a>
+        </form>
+    </div>
+</div>
+

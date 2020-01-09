@@ -53,7 +53,12 @@ namespace CarRent.Data
                  new CarFuelType{Id=5,Name = "PB/LPG"}
             );
 
-
+            modelBuilder.Entity<Models.RentalStatus>().HasData(
+                new Models.RentalStatus { Id = 1,Status = "Reservation" },
+                new Models.RentalStatus { Id = 2, Status = "Checked" },
+                new Models.RentalStatus { Id = 3, Status = "Archival" }
+            );
+            
             modelBuilder.Entity<Car>().HasData(
                 new Car { Id = 1, Brand = "Kia", Model = "Venga", CarCategoryId = 1, CarClassId = 1, CarFuelTypeId = 1, RentPrice = (short) 120.99 },
                 new Car { Id = 2, Brand = "Kia", Model = "Sorento", CarCategoryId = 1, CarClassId = 2, CarFuelTypeId = 2, RentPrice = (short) 140 }

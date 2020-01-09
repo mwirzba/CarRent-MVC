@@ -15,9 +15,9 @@ namespace CarRent.Data
 
     public enum RentalStatus : byte
     {
-        Reservation=0,
-        Checked = 1,
-        Archival =2
+        Reservation=1,
+        Checked = 2,
+        Archival =3
     }
 
 }

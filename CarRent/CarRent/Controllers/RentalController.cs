@@ -36,7 +36,7 @@ namespace CarRent.Controllers
                });
             }
 
-            string currentUserId = _userManager.GetUserId(User);
+            var currentUser =await _userManager.GetUserAsync(User);
 
             var carInDb = await _context.Cars.FirstOrDefaultAsync(c => c.Id == carId);
             if (carInDb == null)
@@ -47,17 +47,28 @@ namespace CarRent.Controllers
 
             var rental = new Rental
             {
+                Car = carInDb,
                 CarId = carInDb.Id,
-                UserId = currentUserId,
+                User = currentUser,
+                UserId = currentUser.Id,
                 TotalPrice = numberOfRentDays * carInDb.RentPrice,
                 RentalStatusId = (byte)Data.RentalStatus.Reservation,
                 RentDate = rentalDate.RentDate,
                 ReturnDate = rentalDate.ReturnDate
             };
-
-
-
-            return View("Index","Home");
+            return View("Confirm",rental);
         }
+
+        public async Task<IActionResult> Save(Rental rental)
+        {
+            if(!ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "Car");
+            }
+            _context.Rentals.Add(rental);
+            await _context.SaveChangesAsync();
+            return View("RentalSucces");
+        }
+
     }
 }

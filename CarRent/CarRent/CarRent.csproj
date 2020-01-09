@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="Components\" />
     <Folder Include="Data\Images\" />
-    <Folder Include="Views\Rental\" />
     <Folder Include="wwwroot\carImages\" />
   </ItemGroup>
 

@@ -67,10 +67,8 @@ namespace CarRent.Infrastructure
                         ? PageClassSelected : PageClassNormal);
 
                 }
-
                 tag.InnerHtml.Append((i.ToString()));
                 result.InnerHtml.AppendHtml(tag);
-
             }
 
             TagBuilder nextPage = new TagBuilder("a");
