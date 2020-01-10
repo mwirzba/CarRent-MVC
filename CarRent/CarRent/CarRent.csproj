@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\**" />
+    <Compile Remove="Data\Images\**" />
+    <Content Remove="Components\**" />
+    <Content Remove="Data\Images\**" />
+    <EmbeddedResource Remove="Components\**" />
+    <EmbeddedResource Remove="Data\Images\**" />
+    <None Remove="Components\**" />
+    <None Remove="Data\Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.0" />
@@ -16,12 +27,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\" />
-    <Folder Include="Data\Images\" />
-    <Folder Include="wwwroot\carImages\" />
   </ItemGroup>
 
   <ItemGroup>

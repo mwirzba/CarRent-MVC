@@ -43,7 +43,7 @@ namespace CarRent.Models.CarModels
 
         [Range(1, 20)]
         [Display(Name = "Number of Seats")]
-        public virtual int CarNumberOfSeats { get; set; }
+        public int NumberOfSeats { get; set; }
 
         public string ImageName { get; set; }
 

@@ -60,8 +60,14 @@ namespace CarRent.Data
             );
             
             modelBuilder.Entity<Car>().HasData(
-                new Car { Id = 1, Brand = "Kia", Model = "Venga", CarCategoryId = 1, CarClassId = 1, CarFuelTypeId = 1, RentPrice = (short) 120.99 },
-                new Car { Id = 2, Brand = "Kia", Model = "Sorento", CarCategoryId = 1, CarClassId = 2, CarFuelTypeId = 2, RentPrice = (short) 140 }
+                new Car { Id = 1, NumberOfSeats = 5 , Brand = "Kia", Model = "Venga", CarCategoryId = 1, CarClassId = 1, CarFuelTypeId = 1, RentPrice =  120 ,ImageName="venga.png"},
+                new Car { Id = 2, NumberOfSeats = 5 , Brand = "Kia", Model = "Sorento", CarCategoryId = 1, CarClassId = 2, CarFuelTypeId = 2, RentPrice =  140 , ImageName = "sorento.png" },
+                new Car { Id = 3, NumberOfSeats = 6 , Brand = "Seat ", Model = "Ibiza", CarCategoryId = 3, CarClassId = 4, CarFuelTypeId = 4, RentPrice = 84, ImageName = "ibiza.png" },
+                new Car { Id = 4, NumberOfSeats = 5 , Brand = "Suzuki", Model = "Celerio", CarCategoryId = 1, CarClassId = 1, CarFuelTypeId = 4, RentPrice = 150, ImageName = "Celerio.png" },
+                new Car { Id = 5, NumberOfSeats = 4 , Brand = "Toyota ", Model = "Yaris", CarCategoryId = 1, CarClassId = 1, CarFuelTypeId = 3, RentPrice = 170, ImageName = "Yaris.png" },
+                new Car { Id = 6, NumberOfSeats = 6 , Brand = "Opel ", Model = "Zafira", CarCategoryId = 3, CarClassId = 1, CarFuelTypeId = 2, RentPrice = 90, ImageName = "Zafira.png" },
+                new Car { Id = 7, NumberOfSeats = 7 , Brand = "Opel ", Model = "Insignia", CarCategoryId = 4, CarClassId = 1, CarFuelTypeId = 4, RentPrice = 180, ImageName = "Insignia.png" },
+                new Car { Id = 8, NumberOfSeats = 7 , Brand = "Suzuki ", Model = "SX4 S-Cross", CarCategoryId = 5, CarClassId = 6, CarFuelTypeId = 4, RentPrice = 170, ImageName = "Cross.png" }
              );
         }
 

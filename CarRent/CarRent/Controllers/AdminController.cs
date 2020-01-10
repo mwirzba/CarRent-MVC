@@ -30,13 +30,7 @@ namespace CarRent.Controllers
         {
             var userToEdit = await _userManager.FindByIdAsync(userId);
             var userRoles = await _userManager.GetRolesAsync(userToEdit);
-            var userDetailViewModel = new UserDetailsViewModel
-            {
-
-                UserRoles = userRoles,
-                Roles = _roleManager.Roles.Where(r=> !userRoles.Any(rl => rl == r.Name)),
-                User = userToEdit,
-            };
+            UserDetailsViewModel userDetailViewModel = await GetUserDetailsViewModel(userToEdit, userRoles);
             return View("UserDetails", userDetailViewModel);
         }
 
@@ -45,20 +39,67 @@ namespace CarRent.Controllers
             var user = await _userManager.FindByIdAsync(newUserRoleViewModel.UserId);   
             var role = await _roleManager.FindByNameAsync(newUserRoleViewModel.RoleName);
 
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            if(userRoles.Contains(role.Name) && userRoles!=null)
+            if (role == null)
             {
-                //ModelState.AddModelError("")
+                ViewData["Message"] = "Wrong role name!";
+                return View("Error");
             }
 
             var roleResult = await _userManager.AddToRoleAsync(user,role.Name);
 
             if(!roleResult.Succeeded)
             {
-                throw new InvalidOperationException("Failed to build user and roles");
+                ViewData["Message"] = "Something got wrong and could not add user to role";
+                return View("Error");
             }
-            return RedirectToAction("UserDetails","Admin",new UserIdViewModel { UserId = newUserRoleViewModel.UserId });
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var userDetailViewModel = GetUserDetailsViewModel(user, userRoles);
+            if (userDetailViewModel != null)
+                return View("UserDetails", userDetailViewModel);
+
+            return RedirectToAction("UserList");
+        }
+
+        public async Task<IActionResult> RemoveUserFromRole(NewUserRoleViewModel newUserRoleViewModel)
+        {
+            var user = await _userManager.FindByIdAsync(newUserRoleViewModel.UserId);
+            var role = await _roleManager.FindByNameAsync(newUserRoleViewModel.RoleName);
+
+
+            if (role == null)
+            {
+                ViewData["Message"] = "Wrong role name!";
+                return View("Error");
+            }
+
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            if (!userRoles.Contains(role.Name) || userRoles == null || role ==null)
+            {
+                ViewData["Message"] = "Wrong role name!";
+                return View("Error");
+            }
+            
+
+            IdentityResult identityResult = await _userManager.RemoveFromRoleAsync(user, role.Name);
+
+            if (!identityResult.Succeeded)
+            {
+                ViewData["Message"] = "Something got wrong and could not remove user from role";
+                return View("Error");
+            }
+
+            userRoles.Remove(role.Name);
+
+            var userDetailViewModel = GetUserDetailsViewModel(user,userRoles);
+
+            if (userDetailViewModel != null)
+                return View("UserDetails", userDetailViewModel);
+
+            return RedirectToAction("UserList");
         }
 
 
@@ -68,7 +109,6 @@ namespace CarRent.Controllers
                 .Include(u => u.User)
                 .Include(c => c.Car)
                 .Include(rs => rs.RentalStatus);
-
             
             return View("RentalsList",rentals);
         }
@@ -89,6 +129,19 @@ namespace CarRent.Controllers
         {
             var users = _userManager.Users;
             return View(users);
+        }
+
+
+        private async Task<UserDetailsViewModel> GetUserDetailsViewModel(User userToEdit,IEnumerable<string> userRoles)
+        {
+            var userDetailViewModel = new UserDetailsViewModel
+            {
+
+                UserRoles = await _userManager.GetRolesAsync(userToEdit),
+                Roles = _roleManager.Roles.Where(r => !userRoles.Any(rl => rl == r.Name)),
+                User = userToEdit,
+            };
+            return userDetailViewModel;
         }
 
     }

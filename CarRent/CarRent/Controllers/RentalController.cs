@@ -3,6 +3,7 @@ using CarRent.Infrastructure;
 using CarRent.Models;
 using CarRent.Models.CarModels;
 using CarRent.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace CarRent.Controllers
 {
+    [Authorize]
     public class RentalController : Controller
     {
         private AppDbContext _context;

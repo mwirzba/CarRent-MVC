@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarRent.Data;
 using CarRent.Models;
 using CarRent.Models.Identity;
 using CarRent.ViewModels;
@@ -83,8 +84,9 @@ namespace CarRent.Controllers
                     await _signInManager.SignOutAsync();
                     if ((await _signInManager.PasswordSignInAsync(user.UserName, loginModel.Password, false, false)).Succeeded)
                     {
+
                         //loginModel?.ReturnUrl ?? 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Car");
                     }
                 }
             }

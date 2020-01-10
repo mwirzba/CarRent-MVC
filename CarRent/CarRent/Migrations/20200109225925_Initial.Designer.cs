@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRent.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200104185249_Added_Rental_Status")]
-    partial class Added_Rental_Status
+    [Migration("20200109225925_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,9 +42,6 @@ namespace CarRent.Migrations
                     b.Property<byte>("CarFuelTypeId")
                         .HasColumnType("tinyint");
 
-                    b.Property<int>("CarNumberOfSeats")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
@@ -52,6 +49,9 @@ namespace CarRent.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
+
+                    b.Property<int>("NumberOfSeats")
+                        .HasColumnType("int");
 
                     b.Property<short>("RentPrice")
                         .HasColumnType("smallint");
@@ -74,8 +74,9 @@ namespace CarRent.Migrations
                             CarCategoryId = (byte)1,
                             CarClassId = (byte)1,
                             CarFuelTypeId = (byte)1,
-                            CarNumberOfSeats = 0,
+                            ImageName = "venga.png",
                             Model = "Venga",
+                            NumberOfSeats = 5,
                             RentPrice = (short)120
                         },
                         new
@@ -85,9 +86,82 @@ namespace CarRent.Migrations
                             CarCategoryId = (byte)1,
                             CarClassId = (byte)2,
                             CarFuelTypeId = (byte)2,
-                            CarNumberOfSeats = 0,
+                            ImageName = "sorento.png",
                             Model = "Sorento",
+                            NumberOfSeats = 5,
                             RentPrice = (short)140
+                        },
+                        new
+                        {
+                            Id = (short)3,
+                            Brand = "Seat ",
+                            CarCategoryId = (byte)3,
+                            CarClassId = (byte)4,
+                            CarFuelTypeId = (byte)4,
+                            ImageName = "ibiza.png",
+                            Model = "Ibiza",
+                            NumberOfSeats = 6,
+                            RentPrice = (short)84
+                        },
+                        new
+                        {
+                            Id = (short)4,
+                            Brand = "Suzuki",
+                            CarCategoryId = (byte)1,
+                            CarClassId = (byte)1,
+                            CarFuelTypeId = (byte)4,
+                            ImageName = "Celerio.png",
+                            Model = "Celerio",
+                            NumberOfSeats = 5,
+                            RentPrice = (short)150
+                        },
+                        new
+                        {
+                            Id = (short)5,
+                            Brand = "Toyota ",
+                            CarCategoryId = (byte)1,
+                            CarClassId = (byte)1,
+                            CarFuelTypeId = (byte)3,
+                            ImageName = "Yaris.png",
+                            Model = "Yaris",
+                            NumberOfSeats = 4,
+                            RentPrice = (short)170
+                        },
+                        new
+                        {
+                            Id = (short)6,
+                            Brand = "Opel ",
+                            CarCategoryId = (byte)3,
+                            CarClassId = (byte)1,
+                            CarFuelTypeId = (byte)2,
+                            ImageName = "Zafira.png",
+                            Model = "Zafira",
+                            NumberOfSeats = 6,
+                            RentPrice = (short)90
+                        },
+                        new
+                        {
+                            Id = (short)7,
+                            Brand = "Opel ",
+                            CarCategoryId = (byte)4,
+                            CarClassId = (byte)1,
+                            CarFuelTypeId = (byte)4,
+                            ImageName = "Insignia.png",
+                            Model = "Insignia",
+                            NumberOfSeats = 7,
+                            RentPrice = (short)180
+                        },
+                        new
+                        {
+                            Id = (short)8,
+                            Brand = "Suzuki ",
+                            CarCategoryId = (byte)5,
+                            CarClassId = (byte)6,
+                            CarFuelTypeId = (byte)4,
+                            ImageName = "Cross.png",
+                            Model = "SX4 S-Cross",
+                            NumberOfSeats = 7,
+                            RentPrice = (short)170
                         });
                 });
 
@@ -97,6 +171,7 @@ namespace CarRent.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -137,6 +212,7 @@ namespace CarRent.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -197,6 +273,7 @@ namespace CarRent.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -313,25 +390,30 @@ namespace CarRent.Migrations
                         .HasColumnType("smallint");
 
                     b.Property<DateTime?>("RentDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<byte>("RentalStatusId")
                         .HasColumnType("tinyint");
 
                     b.Property<DateTime?>("ReturnDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<long>("TotalPrice")
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
                     b.HasIndex("RentalStatusId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Rentals");
                 });
@@ -342,11 +424,29 @@ namespace CarRent.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("RentalStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (byte)1,
+                            Status = "Reservation"
+                        },
+                        new
+                        {
+                            Id = (byte)2,
+                            Status = "Checked"
+                        },
+                        new
+                        {
+                            Id = (byte)3,
+                            Status = "Archival"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -512,6 +612,12 @@ namespace CarRent.Migrations
                     b.HasOne("CarRent.Models.RentalStatus", "RentalStatus")
                         .WithMany()
                         .HasForeignKey("RentalStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarRent.Models.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

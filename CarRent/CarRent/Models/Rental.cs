@@ -19,9 +19,11 @@ namespace CarRent.Models
         public short CarId { get; set; }
 
         [Required]
+        [Display(Name = "Rent date")]
         public DateTime? RentDate { get; set; }
 
         [Required]
+        [Display(Name ="Return date")]
         public DateTime? ReturnDate { get; set; }
 
         public long TotalPrice { get; set; }

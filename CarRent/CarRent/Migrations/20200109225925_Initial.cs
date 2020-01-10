@@ -39,7 +39,9 @@ namespace CarRent.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    SurName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,7 +53,7 @@ namespace CarRent.Migrations
                 columns: table => new
                 {
                     Id = table.Column<byte>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,7 +65,7 @@ namespace CarRent.Migrations
                 columns: table => new
                 {
                     Id = table.Column<byte>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,11 +77,23 @@ namespace CarRent.Migrations
                 columns: table => new
                 {
                     Id = table.Column<byte>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CarFuelTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RentalStatus",
+                columns: table => new
+                {
+                    Id = table.Column<byte>(nullable: false),
+                    Status = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RentalStatus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,13 +208,14 @@ namespace CarRent.Migrations
                 {
                     Id = table.Column<short>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Brand = table.Column<string>(nullable: false),
-                    Model = table.Column<string>(nullable: false),
+                    Brand = table.Column<string>(maxLength: 20, nullable: false),
+                    Model = table.Column<string>(maxLength: 20, nullable: false),
                     RentPrice = table.Column<short>(nullable: false),
                     CarCategoryId = table.Column<byte>(nullable: false),
                     CarClassId = table.Column<byte>(nullable: false),
                     CarFuelTypeId = table.Column<byte>(nullable: false),
-                    CarNumberOfSeats = table.Column<int>(nullable: false)
+                    NumberOfSeats = table.Column<int>(nullable: false),
+                    ImageName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -225,6 +240,42 @@ namespace CarRent.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Rentals",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CarId = table.Column<short>(nullable: false),
+                    RentDate = table.Column<DateTime>(nullable: false),
+                    ReturnDate = table.Column<DateTime>(nullable: false),
+                    TotalPrice = table.Column<long>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    RentalStatusId = table.Column<byte>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rentals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rentals_Cars_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Cars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Rentals_RentalStatus_RentalStatusId",
+                        column: x => x.RentalStatusId,
+                        principalTable: "RentalStatus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Rentals_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "CarCategories",
                 columns: new[] { "Id", "Name" },
@@ -245,12 +296,12 @@ namespace CarRent.Migrations
                     { (byte)9, "R" },
                     { (byte)8, "P" },
                     { (byte)7, "M" },
-                    { (byte)6, "SUV" },
                     { (byte)5, "E" },
-                    { (byte)4, "D" },
+                    { (byte)6, "SUV" },
                     { (byte)3, "C" },
                     { (byte)2, "B" },
-                    { (byte)1, "A" }
+                    { (byte)1, "A" },
+                    { (byte)4, "D" }
                 });
 
             migrationBuilder.InsertData(
@@ -266,14 +317,29 @@ namespace CarRent.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Cars",
-                columns: new[] { "Id", "Brand", "CarCategoryId", "CarClassId", "CarFuelTypeId", "CarNumberOfSeats", "Model", "RentPrice" },
-                values: new object[] { (short)1, "Kia", (byte)1, (byte)1, (byte)1, 0, "Venga", (short)120 });
+                table: "RentalStatus",
+                columns: new[] { "Id", "Status" },
+                values: new object[,]
+                {
+                    { (byte)2, "Checked" },
+                    { (byte)1, "Reservation" },
+                    { (byte)3, "Archival" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Cars",
-                columns: new[] { "Id", "Brand", "CarCategoryId", "CarClassId", "CarFuelTypeId", "CarNumberOfSeats", "Model", "RentPrice" },
-                values: new object[] { (short)2, "Kia", (byte)1, (byte)2, (byte)2, 0, "Sorento", (short)140 });
+                columns: new[] { "Id", "Brand", "CarCategoryId", "CarClassId", "CarFuelTypeId", "ImageName", "Model", "NumberOfSeats", "RentPrice" },
+                values: new object[,]
+                {
+                    { (short)1, "Kia", (byte)1, (byte)1, (byte)1, "venga.png", "Venga", 5, (short)120 },
+                    { (short)2, "Kia", (byte)1, (byte)2, (byte)2, "sorento.png", "Sorento", 5, (short)140 },
+                    { (short)6, "Opel ", (byte)3, (byte)1, (byte)2, "Zafira.png", "Zafira", 6, (short)90 },
+                    { (short)5, "Toyota ", (byte)1, (byte)1, (byte)3, "Yaris.png", "Yaris", 4, (short)170 },
+                    { (short)3, "Seat ", (byte)3, (byte)4, (byte)4, "ibiza.png", "Ibiza", 6, (short)84 },
+                    { (short)4, "Suzuki", (byte)1, (byte)1, (byte)4, "Celerio.png", "Celerio", 5, (short)150 },
+                    { (short)7, "Opel ", (byte)4, (byte)1, (byte)4, "Insignia.png", "Insignia", 7, (short)180 },
+                    { (short)8, "Suzuki ", (byte)5, (byte)6, (byte)4, "Cross.png", "SX4 S-Cross", 7, (short)170 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -328,6 +394,21 @@ namespace CarRent.Migrations
                 name: "IX_Cars_CarFuelTypeId",
                 table: "Cars",
                 column: "CarFuelTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rentals_CarId",
+                table: "Rentals",
+                column: "CarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rentals_RentalStatusId",
+                table: "Rentals",
+                column: "RentalStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rentals_UserId",
+                table: "Rentals",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -348,10 +429,16 @@ namespace CarRent.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Cars");
+                name: "Rentals");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Cars");
+
+            migrationBuilder.DropTable(
+                name: "RentalStatus");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -7,18 +7,38 @@
 @{
     CarRent.ViewModels.NewUserRoleViewModel newUserRoleViewModel =
                     new CarRent.ViewModels.NewUserRoleViewModel();
-    
-    <form asp-action="AddRoleToUser" method="post">
+
+
+}
+
+<form asp-action="AddRoleToUser" method="post">
+    <div class="form-group">
+        <label class="control-label">Add new role</label>
+        <select asp-for="@newUserRoleViewModel.RoleName" class="form-control"
+                asp-items="@(new SelectList(Model.Roles))">
+            <option value="empty">Select role</option>
+        </select>
+    </div>
+    <input type="hidden" asp-for="@newUserRoleViewModel.UserId" value="@Model.User.Id" />
+    <div class="form-group">
+        <input type="submit" value="Add" class="btn btn-primary" />
+    </div>
+</form>
+
+@if (Model.UserRoles.Any())
+{
+    <form asp-action="RemoveUserFromRole" method="post">
         <div class="form-group">
-            <label class="control-label">Add new role</label>
+            <label class="control-label">Remove from role</label>
             <select asp-for="@newUserRoleViewModel.RoleName" class="form-control"
-                    asp-items="@(new SelectList(Model.Roles))">
-                <option>Select role</option>
+                    asp-items="@(new SelectList(Model.UserRoles))">
+                <option value="empty">Select role to remove</option>
             </select>
         </div>
-        <input type="hidden" asp-for="@newUserRoleViewModel.UserId" value="@Model.User.Id"/>
+        <input type="hidden" asp-for="@newUserRoleViewModel.UserId" value="@Model.User.Id" />
         <div class="form-group">
-            <input type="submit" value="Add" class="btn btn-primary" />
+            <input type="submit" value="Remove" class="btn btn-danger" />
         </div>
     </form>
 }
+

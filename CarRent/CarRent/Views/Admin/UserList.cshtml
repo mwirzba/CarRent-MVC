@@ -30,17 +30,11 @@
                             <input asp-for="@user.Id" name="userId" type="hidden" />
                             <input type="submit" value="Edit" class="btn btn-primary" />
                         </form>
-                        <form method="post" asp-action="EditUser">
-                            <input asp-for="@user.Id" name="userId" type="hidden" />
-                            <input type="submit" value="Edit" class="btn btn-primary" />
-                        </form>
                         <form method="post" asp-action="DeleteUser">
                             <input asp-for="@user.Id" name="userId" type="hidden" />
                             <input type="submit" value="Delete" class="btn-danger" />
                         </form>
                     </div>
-                 
-
                 </td>
             </tr>
         }

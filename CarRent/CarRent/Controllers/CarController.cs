@@ -18,8 +18,8 @@ namespace CarRent.Controllers
     public class CarController : Controller
     {
         private readonly AppDbContext _dbContext;
-        private const string _carImagePath = "/CarRent/CarRent/Data/Images/";
-        private static byte _pageSize = 3;
+        private const string _carImagePath = "/CarRent/CarRent/wwwroot/carImages";
+        private static byte _pageSize = 4;
         private readonly DateSession _dateSession;
 
         public CarController(AppDbContext appDbContext, DateSession dateSession)
@@ -156,7 +156,7 @@ namespace CarRent.Controllers
                 carInDb.CarCategoryId = carFormViewModel.Car.CarCategoryId;
                 carInDb.CarClassId = carFormViewModel.Car.CarClassId;
                 carInDb.CarFuelTypeId = carFormViewModel.Car.CarFuelTypeId;
-                carInDb.CarNumberOfSeats = carFormViewModel.Car.CarNumberOfSeats;
+                carInDb.NumberOfSeats = carFormViewModel.Car.NumberOfSeats;
                 carInDb.Model = carFormViewModel.Car.Model;
                 carInDb.Brand = carFormViewModel.Car.Brand;
 
